@@ -1467,7 +1467,9 @@
 
     let isMuted = false;
     const soundControl = document.getElementById('soundControl');
-
+    
+    const LS_PREFIX = 'arkanaCascabeles_';
+    
     soundControl.addEventListener('click', () => {
       isMuted = !isMuted;
       if (isMuted) {
@@ -1489,34 +1491,35 @@
     ];
 
     function hasPlayedToday() {
-      const lastPlayed = localStorage.getItem('jingleBellsLastPlayed');
+      const lastPlayed = localStorage.getItem(LS_PREFIX + 'lastPlayed');
       if (!lastPlayed) return false;
-
+    
       const lastPlayedDate = new Date(parseInt(lastPlayed));
       const today = new Date();
-
+    
       return (
         lastPlayedDate.getFullYear() === today.getFullYear() &&
         lastPlayedDate.getMonth() === today.getMonth() &&
         lastPlayedDate.getDate() === today.getDate()
       );
     }
-
+    
     function markAsPlayed(prize, bellIndex) {
-      localStorage.setItem('jingleBellsLastPlayed', Date.now().toString());
-      localStorage.setItem('jingleBellsPrize', JSON.stringify(prize));
-      localStorage.setItem('jingleBellsClickedIndex', bellIndex.toString());
+      localStorage.setItem(LS_PREFIX + 'lastPlayed', Date.now().toString());
+      localStorage.setItem(LS_PREFIX + 'prize', JSON.stringify(prize));
+      localStorage.setItem(LS_PREFIX + 'clickedIndex', bellIndex.toString());
     }
-
+    
     function getClickedBellIndex() {
-      const saved = localStorage.getItem('jingleBellsClickedIndex');
+      const saved = localStorage.getItem(LS_PREFIX + 'clickedIndex');
       return saved ? parseInt(saved) : null;
     }
-
+    
     function getSavedPrize() {
-      const saved = localStorage.getItem('jingleBellsPrize');
+      const saved = localStorage.getItem(LS_PREFIX + 'prize');
       return saved ? JSON.parse(saved) : null;
     }
+
 
     function getRandomPrize() {
       return prizes[Math.floor(Math.random() * prizes.length)];
